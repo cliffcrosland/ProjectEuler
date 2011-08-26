@@ -1,3 +1,5 @@
+// WORK IN PROGRESS.  NOT SOLVED YET.
+
 /* -- ProjectEuler Problem 204 --
  * A Hamming number is a positive number which has no prime factor larger 
  * than 5.
@@ -27,9 +29,10 @@ function createPrimesBetween(lowest, highest) {
 
 /* Returns true iff num is not divisible by any of the given primes. */
 function isHamming(num, primes) {
-  for (var i = 0; i < primes.length; i++)
+  for (var i = 0; i < primes.length; i++) {
     if (primes[i] > num) break;
     if (num % primes[i] == 0) return false;
+  }
   return true;
 }
 
@@ -37,11 +40,15 @@ function isHamming(num, primes) {
  * exceed 10^9. */
 function projectEuler204() {
   var count = 0;
-  var primes = createPrimesBetween(5, Math.pow(10,4));
-  var largest = Math.pow(10,8);
+  var primes = createPrimesBetween(6, Math.pow(10,4));
+  console.log(primes);
+  var largest = 100; //Math.pow(10,8);
+  var avg = 0;
   for (var n = 1; n <= largest; n++) {
-    if (isHamming(n, primes))
+    if (isHamming(n, primes)) {
+      console.log(n)
       count++; 
+    }
   }
   alert("Hamming count = " + count);
 }
