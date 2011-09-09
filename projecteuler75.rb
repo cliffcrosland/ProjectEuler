@@ -14,7 +14,7 @@ def main
   counts = {}
   (1...MAX).each do |m|
     (1..m).each do |n|
-      break if m*n + n*n > MAX
+      break if m*m + n*n > MAX
       # m and n generate a primitive pythagorean triple iff
       # m,n are coprime and m - n is odd.
       next if not coprime?(m, n)
@@ -55,4 +55,16 @@ main
 #
 # is a primitive pythagorean triple.
 #
-# The alg is a wee bit slow, but it's not bad.  Runs in ~30 seconds.
+# Biggest whoops:
+#
+# Wanted to break when the numbers got too big, but accidentally wrote 
+#
+#   break if m*n + n*n > MAX
+#              ^
+# instead of
+#
+#   break if m*m + n*n > MAX
+#              ^
+# Changing this yielded a speedup from the original 30 sec runtime to 
+# a 6 sec runtime.  The algorithm's big-Oh runtime did not change asymptotically, 
+# but in project euler problems, hidden constants make a HUGE difference.
