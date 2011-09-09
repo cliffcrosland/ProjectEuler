@@ -33,7 +33,6 @@ def main
 
   count = 0
   counts.each_value do |value|
-    #value = counts[key]
     count += 1 if value == 1
   end 
   puts count
