@@ -13,7 +13,6 @@ def main
   # Generate integers less than 10^8 writable as a sum of consecutive squares.
   # Check each for palindrome-ism-ness.
   cool_palindromes_sum = 0
-  cool_palindromes_count = 0
   cool_palindromes_hash = {}
   (2..MAX).each do |num_consecutive|
     # Compute the sum of the squares of the first n integers
@@ -25,7 +24,6 @@ def main
     while sum < MAX
       if palindrome?(sum) and not cool_palindromes_hash[sum]
         cool_palindromes_sum += sum
-        cool_palindromes_count += 1
         cool_palindromes_hash[sum] = true
       end
       # eg. 1*1 + 2*2 + 3*3 ==> 2*2 + 3*3 + 4*4
@@ -36,7 +34,6 @@ def main
   end
   puts ""
   puts cool_palindromes_sum
-  puts cool_palindromes_count
 end
 
 main
