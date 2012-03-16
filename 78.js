@@ -6,26 +6,25 @@ function memoKey(nCoins, largestPile) {
 
 function numPiles(nCoins) {
   var count = 0;
-  for (var i = 1; i <= nCoins; i++) {
-    var piles = numPilesGivenLargestPile(nCoins, i);
-    if (MEMO[nCoins] === undefined) MEMO[nCoins] = new Object();
-    MEMO[nCoins][i] = piles % 1000000;
+  for (var i = 1; i <= nCoins / 2; i++) {
+    var piles = numPilesGivenSmallestPile(i, nCoins - i);
     count += piles;
   }
+  count += 1;
   return count % 1000000;
 }
 
-function numPilesGivenLargestPile(nCoins, largestPile) {
-  if (nCoins == largestPile) return 1;
-  if (largestPile == 1) return 1;
-  var newNCoins = nCoins - largestPile;
-  var newLargestPile = largestPile;
-  if (newLargestPile > newNCoins) newLargestPile = newNCoins;
-  var count = 0
-  for (var i = 1; i <= newLargestPile; i++) {
-    count += MEMO[newNCoins][i];
+function numPilesGivenSmallestPile(smallestPile, nCoins) {
+  if (smallestPile > nCoins) return 0;
+  if (smallestPile == nCoins) return 1;
+  if (MEMO[nCoins] !== undefined && MEMO[nCoins][smallestPile] !== undefined) {
+    return MEMO[nCoins][smallestPile];
   }
-  return count;
+  var result = numPilesGivenSmallestPile(smallestPile + 1, nCoins) +
+               numPilesGivenSmallestPile(smallestPile, nCoins - smallestPile);
+  if (MEMO[nCoins] === undefined) MEMO[nCoins] = new Array();
+  MEMO[nCoins][smallestPile] = result % 1000000;
+  return result;
 }
 
 function main() {
@@ -33,14 +32,17 @@ function main() {
   var nCoins = 1;
   while (true) {
     var piles = numPiles(nCoins);
-    if (nCoins % 10 == 0) {
-      console.log(nCoins + " =>" + piles);
+    if (nCoins % 100 == 0) {
+      console.log(nCoins + " => " + piles);
     }
     if (piles % 1000000 == 0) {
       console.log("HEYHEYHEYHEY");
-      console.log(nCoins + " =>" + piles);
+      console.log(nCoins + " => " + piles);
       break;
     }
     nCoins++;
   }
 }
+
+if (process)
+  main(); // Immediately execute if running from node, which always has a 'process' global object
